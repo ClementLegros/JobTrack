@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:tp1exercice3/Pages/HomePage.dart';
 import 'package:tp1exercice3/Models/proposition.dart';
-import 'package:tp1exercice3/Models/propositionDatabase.dart';
+
+//Cette page permet de modéliser les Card des propositions qui seront afficher dans HomePage.dart
 
 class PropositionItemWidget extends StatelessWidget {
   const PropositionItemWidget({Key? key, required this.proposition})
@@ -30,9 +27,13 @@ class PropositionItemWidget extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20)),
                   ),
-                  Text("Salaire brut annuel : " + proposition.salaireBrutAnuel.toString(),
+                  Text(
+                      "Salaire brut annuel : " +
+                          proposition.salaireBrutAnuel.toString(),
                       style: TextStyle(color: Colors.grey[500], fontSize: 16)),
-                  Text("Salaire net mensuel : " + proposition.salaireNetMensuel.toString(),
+                  Text(
+                      "Salaire net mensuel : " +
+                          proposition.salaireNetMensuel.toString(),
                       style: TextStyle(color: Colors.grey[500], fontSize: 16)),
                   Text("Statut propose : " + proposition.statutPropose,
                       style: TextStyle(color: Colors.grey[500], fontSize: 16)),

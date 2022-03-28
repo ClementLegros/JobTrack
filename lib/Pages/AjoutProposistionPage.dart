@@ -25,6 +25,22 @@ class _AddPropositionState extends State<AddProposition> {
   bool _value = false;
   int val = -1;
 
+  void calculSalaire(salaireBrutAnnuel) {
+    //On récupère le brut annuel
+
+    if (val == 1) {
+      //Non cadre 22%
+      mySalaireNetMensuelController.text = salaireBrutAnnuel;
+    } else if (val == 2) {
+      //Cadre 25%
+      mySalaireNetMensuelController.text = salaireBrutAnnuel;
+    }
+  }
+
+  void calculNonCadre() {
+    mySalaireNetMensuelController.text = "12000";
+  }
+
   void ajouterProposition() {
     String entreprise = myEntrepriseController.text;
     String salaireBrutAnuel = mySalaireBrutAnuelController.text;
@@ -32,7 +48,11 @@ class _AddPropositionState extends State<AddProposition> {
     String salaireNetMensuel = mySalaireNetMensuelController.text;
     String sentiment = mySentimentController.text;
     Proposition proposition = new Proposition(
-        entreprise, double.parse(salaireBrutAnuel), statut, double.parse(salaireNetMensuel), sentiment);
+        entreprise,
+        double.parse(salaireBrutAnuel),
+        statut,
+        double.parse(salaireNetMensuel),
+        sentiment);
     PropositionBox.box.put(proposition.key(), proposition);
     // On retourne a la page d'accueil
     Navigator.pushNamed(context, '/');
@@ -72,6 +92,9 @@ class _AddPropositionState extends State<AddProposition> {
                 border: OutlineInputBorder(),
                 hintText: 'Salaire brut annuel',
               ),
+              onChanged: (text) {
+                calculSalaire(text.toString());
+              },
             ),
             ListTile(
               title: Text("Non cadre (22%)"),
@@ -80,10 +103,11 @@ class _AddPropositionState extends State<AddProposition> {
                 groupValue: val,
                 onChanged: (value) {
                   setState(() {
+                    calculSalaire(value.toString());
                     val = int.parse(value.toString());
                   });
                 },
-                activeColor: Colors.green,
+                activeColor: Colors.lightBlue,
               ),
             ),
             ListTile(
@@ -92,32 +116,13 @@ class _AddPropositionState extends State<AddProposition> {
                 value: 2,
                 groupValue: val,
                 onChanged: (value) {
+                  calculSalaire(value.toString());
                   setState(() {
                     val = int.parse(value.toString());
                   });
                 },
-                activeColor: Colors.green,
+                activeColor: Colors.lightBlue,
               ),
-            ),
-            TextField(
-              controller: myStatutController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText:
-                'Choix statut proposé : Cadre (25%) / Non cadre (22%)',
-              ),
-            ),
-            DropdownButton(
-              onChanged: (String? newValue) {
-                setState(() {});
-              },
-              items: <String>['Cadre (25%)', 'Non cadre (22%)']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
             ),
             TextField(
               controller: mySalaireNetMensuelController,
