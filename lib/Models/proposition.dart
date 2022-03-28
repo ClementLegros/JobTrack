@@ -7,11 +7,11 @@ class Proposition {
   @HiveField(0)
   String entreprise;
   @HiveField(1)
-  String salaireBrutAnuel;
+  double salaireBrutAnuel;
   @HiveField(2)
   String statutPropose;
   @HiveField(3)
-  String salaireNetMensuel;
+  double salaireNetMensuel;
   @HiveField(4)
   String mesSentiments;
 
