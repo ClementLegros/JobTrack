@@ -14,22 +14,36 @@ class AddProposition extends StatefulWidget {
 class _AddPropositionState extends State<AddProposition> {
   final myEntrepriseController = TextEditingController();
   final mySalaireBrutAnuelController = TextEditingController();
-  final myStatutController = TextEditingController();
   final mySalaireNetMensuelController = TextEditingController();
   final mySentimentController = TextEditingController();
+
+  String statut = "";
 
   bool _value = false;
   int val = -1;
 
   void calculSalaire(salaireBrutAnnuel) {
-    //On récupère le brut annuel
 
+    //On vérifie si la valeur récupérer est bien un double
+    var salaireBrutAnnu = double.tryParse(salaireBrutAnnuel);
+    if(salaireBrutAnnu == null)
+    {
+      //Si le champs est mal renseigner on remet à 0 le champs net
+      mySalaireNetMensuelController.text = "";
+      return;
+    }
+    //Test pour savoir quel checkbox est coché
     if (val == 1) {
       //Non cadre 22%
-      mySalaireNetMensuelController.text = salaireBrutAnnuel;
+      statut = "Non cadre";
+      salaireBrutAnnu = salaireBrutAnnu - (22/100 * salaireBrutAnnu);
+      mySalaireNetMensuelController.text = salaireBrutAnnu.toString();
+
     } else if (val == 2) {
       //Cadre 25%
-      mySalaireNetMensuelController.text = salaireBrutAnnuel;
+      statut = "Cadre";
+      salaireBrutAnnu = salaireBrutAnnu - (25/100 * salaireBrutAnnu);
+      mySalaireNetMensuelController.text = salaireBrutAnnu.toString();
     }
   }
 
@@ -40,7 +54,6 @@ class _AddPropositionState extends State<AddProposition> {
   void ajouterProposition() {
     String entreprise = myEntrepriseController.text;
     String salaireBrutAnuel = mySalaireBrutAnuelController.text;
-    String statut = myStatutController.text;
     String salaireNetMensuel = mySalaireNetMensuelController.text;
     String sentiment = mySentimentController.text;
     Proposition proposition = new Proposition(
@@ -59,7 +72,6 @@ class _AddPropositionState extends State<AddProposition> {
     // Clean up the controller when the widget is disposed.
     myEntrepriseController.dispose();
     mySalaireBrutAnuelController.dispose();
-    myStatutController.dispose();
     mySalaireNetMensuelController.dispose();
     mySentimentController.dispose();
     super.dispose();
@@ -98,10 +110,12 @@ class _AddPropositionState extends State<AddProposition> {
                 value: 1,
                 groupValue: val,
                 onChanged: (value) {
+
                   setState(() {
-                    calculSalaire(value.toString());
                     val = int.parse(value.toString());
                   });
+                  //On effectue le calcul de salaire après pour que la fonctionne puisse détecter le changement de val, sinon lors du premier click sur un RB aucun affichage ne serait fait
+                  calculSalaire(mySalaireBrutAnuelController.text);
                 },
                 activeColor: Colors.lightBlue,
               ),
@@ -112,10 +126,12 @@ class _AddPropositionState extends State<AddProposition> {
                 value: 2,
                 groupValue: val,
                 onChanged: (value) {
-                  calculSalaire(value.toString());
+
                   setState(() {
                     val = int.parse(value.toString());
                   });
+                  //On effectue le calcul de salaire après pour que la fonctionne puisse détecter le changement de val, sinon lors du premier click sur un RB aucun affichage ne serait fait
+                  calculSalaire(mySalaireBrutAnuelController.text);
                 },
                 activeColor: Colors.lightBlue,
               ),
