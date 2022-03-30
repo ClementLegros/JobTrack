@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:tp1exercice3/Pages/AjoutProposistionPage.dart';
 import 'package:tp1exercice3/Pages/PropositionPage.dart';
 import 'package:tp1exercice3/Models/propositionDatabase.dart';
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -33,7 +33,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   //Function pour aller a la page d'ajout
   void goToProposition() {
     Navigator.pushNamed(context, '/addProposition');
@@ -46,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: ValueListenableBuilder(
-        //On recupere les valeurs contenue dans notre box
+          //On recupere les valeurs contenue dans notre box
           valueListenable: PropositionBox.box.listenable(),
           builder: (context, Box items, _) {
             List<String> keys = items.keys.cast<String>().toList();
@@ -57,6 +56,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   final proposition = items.get(keys[index]);
                   //Permet de supprimer une proposition
                   return Dismissible(
+                      direction: DismissDirection.endToStart,
+                      //Container qui permet d'affiche le fond rouge avec l'icone supprimer
+                      background: Container(
+                        alignment: AlignmentDirectional.centerEnd,
+                        color: Colors.red,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                       key: Key(proposition.entreprise),
                       onDismissed: (direction) {
                         setState(() {
@@ -64,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         });
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content:
-                            Text("${proposition.entreprise} supprime")));
+                                Text("${proposition.entreprise} supprime")));
                       },
                       child: PropositionItemWidget(
                         key: Key(proposition.key()),
