@@ -1,11 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:tp1exercice3/Pages/AjoutProposistionPage.dart';
 import 'package:tp1exercice3/Pages/PropositionPage.dart';
-import 'package:tp1exercice3/main.dart';
-import 'package:tp1exercice3/Models/proposition.dart';
 import 'package:tp1exercice3/Models/propositionDatabase.dart';
 
 

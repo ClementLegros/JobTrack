@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:tp1exercice3/Models/proposition.dart';
 
 class PropositionBox {
@@ -8,8 +8,7 @@ class PropositionBox {
 
   //Initialise la Box Hive
   static Future<void> init() async {
-    final dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
+    await Hive.initFlutter();
     Hive.registerAdapter(PropositionAdapter());
     box = await Hive.openBox('propositionsBox');
     var values = box.values;
