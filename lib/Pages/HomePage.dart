@@ -70,6 +70,28 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       key: Key(proposition.entreprise),
+                      //Confirmation de la supression
+                      confirmDismiss: (DismissDirection direction) async {
+                        return await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("Confirmation"),
+                              content: const Text("Voulez vous enlevez l'entreprise de votre liste de suivi ? "),
+                              actions: <Widget>[
+                                FlatButton(
+                                    onPressed: () => Navigator.of(context).pop(true),
+                                    child: const Text("Oui")
+                                ),
+                                FlatButton(
+                                  onPressed: () => Navigator.of(context).pop(false),
+                                  child: const Text("Annuler"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                       onDismissed: (direction) {
                         setState(() {
                           PropositionBox.box.delete(proposition.key());

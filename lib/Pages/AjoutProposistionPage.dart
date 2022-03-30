@@ -22,40 +22,39 @@ class _AddPropositionState extends State<AddProposition> {
   bool _value = false;
   int val = -1;
 
+  //Fonction déclancher lorsqu'on écrit dans salaire BrutAnnuel ou en appuyant sur les radios buttons
   void calculSalaire(salaireBrutAnnuel) {
-
     //On vérifie si la valeur récupérer est bien un double
     var salaireBrutAnnu = double.tryParse(salaireBrutAnnuel);
-    if(salaireBrutAnnu == null)
-    {
+    if (salaireBrutAnnu == null) {
       //Si le champs est mal renseigner on remet à 0 le champs net
       mySalaireNetMensuelController.text = "";
+
       return;
     }
     //Test pour savoir quel checkbox est coché
     if (val == 1) {
       //Non cadre 22%
       statut = "Non cadre";
-      salaireBrutAnnu = salaireBrutAnnu - (22/100 * salaireBrutAnnu);
+      salaireBrutAnnu = salaireBrutAnnu - (22 / 100 * salaireBrutAnnu);
       mySalaireNetMensuelController.text = salaireBrutAnnu.toString();
-
     } else if (val == 2) {
       //Cadre 25%
       statut = "Cadre";
-      salaireBrutAnnu = salaireBrutAnnu - (25/100 * salaireBrutAnnu);
+      salaireBrutAnnu = salaireBrutAnnu - (25 / 100 * salaireBrutAnnu);
       mySalaireNetMensuelController.text = salaireBrutAnnu.toString();
     }
   }
 
-  void calculNonCadre() {
-    mySalaireNetMensuelController.text = "12000";
-  }
-
+  //Function déclancher par le button d'ajout
   void ajouterProposition() {
+    //Récupération des informations contenue dans les champs de texte
     String entreprise = myEntrepriseController.text;
     String salaireBrutAnuel = mySalaireBrutAnuelController.text;
     String salaireNetMensuel = mySalaireNetMensuelController.text;
     String sentiment = mySentimentController.text;
+
+    //On crée une proposition et on l'ajoute à notre Box
     Proposition proposition = new Proposition(
         entreprise,
         double.parse(salaireBrutAnuel),
@@ -63,13 +62,14 @@ class _AddPropositionState extends State<AddProposition> {
         double.parse(salaireNetMensuel),
         sentiment);
     PropositionBox.box.put(proposition.key(), proposition);
+
     // On retourne a la page d'accueil
     Navigator.pushNamed(context, '/');
   }
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
+    // Nettoyage des controllers
     myEntrepriseController.dispose();
     mySalaireBrutAnuelController.dispose();
     mySalaireNetMensuelController.dispose();
@@ -87,30 +87,32 @@ class _AddPropositionState extends State<AddProposition> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Spacer(flex: 2),
             TextField(
               controller: myEntrepriseController,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Entrez le nom d\' une entreprise',
-              ),
+                  border: OutlineInputBorder(),
+                  hintText: 'Entrez le nom d\' une entreprise',
+                  hintStyle: TextStyle(color: Colors.grey[400])),
             ),
+            Spacer(flex: 1),
             TextField(
               controller: mySalaireBrutAnuelController,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Salaire brut annuel',
-              ),
+                  border: OutlineInputBorder(),
+                  hintText: 'Salaire brut annuel',
+                  hintStyle: TextStyle(color: Colors.grey[400])),
               onChanged: (text) {
                 calculSalaire(text.toString());
               },
             ),
+            Spacer(flex: 1),
             ListTile(
               title: Text("Non cadre (22%)"),
               leading: Radio(
                 value: 1,
                 groupValue: val,
                 onChanged: (value) {
-
                   setState(() {
                     val = int.parse(value.toString());
                   });
@@ -126,7 +128,6 @@ class _AddPropositionState extends State<AddProposition> {
                 value: 2,
                 groupValue: val,
                 onChanged: (value) {
-
                   setState(() {
                     val = int.parse(value.toString());
                   });
@@ -136,27 +137,31 @@ class _AddPropositionState extends State<AddProposition> {
                 activeColor: Colors.lightBlue,
               ),
             ),
+            Spacer(flex: 1),
             TextField(
               controller: mySalaireNetMensuelController,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Salaire net mensuel',
-              ),
+                  border: OutlineInputBorder(),
+                  hintText: 'Salaire net mensuel',
+                  hintStyle: TextStyle(color: Colors.grey[400])),
             ),
+            Spacer(flex: 1),
             TextField(
               controller: mySentimentController,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Mon sentiment',
-              ),
+                  border: OutlineInputBorder(),
+                  hintText: 'Mon sentiment',
+                  hintStyle: TextStyle(color: Colors.grey[400])),
             ),
+            Spacer(flex: 1),
             FloatingActionButton(
               onPressed: ajouterProposition,
               backgroundColor: Colors.lightBlue,
               tooltip: 'Ajouter une proposition',
               child: const Icon(Icons.add),
               //backgroundColor: Colors.white,
-            )
+            ),
+            Spacer(flex: 2),
           ],
         ),
       ),
