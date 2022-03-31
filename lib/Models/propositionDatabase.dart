@@ -20,11 +20,11 @@ class PropositionBox {
 
   //Jeux d'essaie, les valeurs sont des valeurs fictive
   static final List<Proposition> propositions = [
-    Proposition("Google", 200, "cadre", 300, "Google c'est google"),
+    Proposition("Google", 200, "Cadre", 300, "Google c'est google"),
     Proposition(
-        "Facebook", 200, "cadre", 300, "React native c'est pas mal"),
-    Proposition("Amazon", 900, "cadre", 300, "Bon pour apprendre l'AWS"),
-    Proposition("Netflix", 700, "cadre", 300, "Abonnement moins chere"),
-    Proposition("Microsoft", 100, "cadre", 300, "windows oof"),
+        "Facebook", 200, "Cadre", 300, "React native c'est pas mal"),
+    Proposition("Amazon", 900, "Non cadre", 300, "Bon pour apprendre l'AWS"),
+    Proposition("Netflix", 700, "Non cadre", 300, "Abonnement moins chere"),
+    Proposition("Microsoft", 100, "Cadre", 300, "windows oof"),
   ];
 }

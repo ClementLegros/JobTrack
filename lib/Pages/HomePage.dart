@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                           Navigator.pushNamed(
-                                              context, '/Proposition',
+                                              context, '/ModifierProposition',
                                               arguments: proposition);
                                         },
                                         child: Text(

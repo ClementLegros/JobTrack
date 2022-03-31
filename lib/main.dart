@@ -3,6 +3,7 @@ import 'package:tp1exercice3/Models/proposition.dart';
 import 'package:tp1exercice3/Pages/AjoutProposistionPage.dart';
 import 'package:tp1exercice3/Pages/HomePage.dart';
 import 'package:tp1exercice3/Models/propositionDatabase.dart';
+import 'package:tp1exercice3/Pages/ModifierPropositionPage.dart';
 import 'package:tp1exercice3/Pages/PropositionPage.dart';
 
 void main() async {
@@ -30,33 +31,47 @@ class MyApp extends StatelessWidget {
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    switch(settings.name){
+    switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (context) => MyHomePage(title: 'Accueil'));
+        return MaterialPageRoute(
+            builder: (context) => MyHomePage(title: 'Accueil'));
       case '/addProposition':
-        return MaterialPageRoute(builder: (context) => AddProposition(title: 'Ajout'));
+        return MaterialPageRoute(
+            builder: (context) => AddProposition(title: 'Ajout'));
       case '/Proposition':
         return PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation)=> PropositionPage(proposition: settings.arguments as Proposition),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              animation = CurvedAnimation(curve: Curves.ease, parent: animation);
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                PropositionPage(proposition: settings.arguments as Proposition),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              animation =
+                  CurvedAnimation(curve: Curves.ease, parent: animation);
               return FadeTransition(
-                opacity:animation,
+                opacity: animation,
                 child: child,
               );
-            }
-        );
+            });
+      case '/ModifierProposition':
+        return PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                ModifierPropositionPage(proposition: settings.arguments as Proposition),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              animation =
+                  CurvedAnimation(curve: Curves.ease, parent: animation);
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            });
 
       default:
         return MaterialPageRoute(
             builder: (context) => Scaffold(
-                appBar: AppBar(title:Text("Error"), centerTitle: true),
+                appBar: AppBar(title: Text("Error"), centerTitle: true),
                 body: Center(
                   child: Text("Page not found"),
-                )
-            )
-        );
+                )));
     }
-
   }
 }
