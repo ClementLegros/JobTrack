@@ -1,28 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:tp1exercice3/Pages/AjoutProposistionPage.dart';
-import 'package:tp1exercice3/Pages/PropositionPage.dart';
+import 'package:tp1exercice3/Pages/PropositionCard.dart';
 import 'package:tp1exercice3/Models/propositionDatabase.dart';
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Suivi de job',
-      theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
-      ),
-      routes: {
-        '/': (context) => MyHomePage(title: 'Mon suivi de job'),
-        '/addProposition': (context) =>
-            AddProposition(title: 'Ajout de proposition')
-      },
-    );
-  }
-}
+import 'package:tp1exercice3/Widget/slideLeftWidget.dart';
+import 'package:tp1exercice3/Widget/slideRightWidget.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -56,49 +38,80 @@ class _MyHomePageState extends State<MyHomePage> {
                   final proposition = items.get(keys[index]);
                   //Permet de supprimer une proposition
                   return Dismissible(
-                      direction: DismissDirection.endToStart,
-                      //Container qui permet d'affiche le fond rouge avec l'icone supprimer
-                      background: Container(
-                        alignment: AlignmentDirectional.centerEnd,
-                        color: Colors.red,
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                          child: Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+                      background: slideRight(),
+                      secondaryBackground: slideLeftWidget(),
                       key: Key(proposition.entreprise),
-                      //Confirmation de la supression
-                      confirmDismiss: (DismissDirection direction) async {
-                        return await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("Confirmation"),
-                              content: const Text("Voulez vous enlevez l'entreprise de votre liste de suivi ? "),
-                              actions: <Widget>[
-                                FlatButton(
-                                    onPressed: () => Navigator.of(context).pop(true),
-                                    child: const Text("Oui")
-                                ),
-                                FlatButton(
-                                  onPressed: () => Navigator.of(context).pop(false),
-                                  child: const Text("Annuler"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                      confirmDismiss: (direction) async {
+                        if (direction == DismissDirection.endToStart) {
+                          return await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Text(
+                                      "Voulez vous supprimé l'offre de ${proposition.entreprise}"),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text(
+                                          "Annuler",
+                                          style: TextStyle(color: Colors.black),
+                                        )),
+                                    FlatButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            PropositionBox.box
+                                                .delete(proposition.key());
+                                          });
+                                          Navigator.of(context).pop();
+                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                              content: Text(
+                                                  "${proposition.entreprise} à été supprimé")));
+                                        },
+                                        child: Text(
+                                          "Supprimé",
+                                          style: TextStyle(color: Colors.red),
+                                        ))
+                                  ],
+                                );
+                              });
+                        } else {
+                          return await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Text(
+                                      "Voulez vous modifier l'offre de ${proposition.entreprise}"),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text(
+                                          "Annuler",
+                                          style: TextStyle(color: Colors.black),
+                                        )),
+                                    FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          Navigator.pushNamed(
+                                              context, '/Proposition',
+                                              arguments: proposition);
+                                        },
+                                        child: Text(
+                                          "Modifier",
+                                          style: TextStyle(color: Colors.blue),
+                                        ))
+                                  ],
+                                );
+                              });
+                        }
                       },
                       onDismissed: (direction) {
-                        setState(() {
-                          PropositionBox.box.delete(proposition.key());
-                        });
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content:
-                                Text("${proposition.entreprise} supprime")));
+                            content: Text(
+                                "${proposition.entreprise} à été supprimé")));
                       },
                       child: PropositionItemWidget(
                         key: Key(proposition.key()),
