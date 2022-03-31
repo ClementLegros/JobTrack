@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 //Ce widget est appliqué aux cartes pour permettre de modifier la carte
-Widget slideRight() {
+Widget slideRightWidget() {
   return Container(
     color: Colors.green,
     child: Row(

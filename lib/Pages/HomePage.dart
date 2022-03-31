@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   final proposition = items.get(keys[index]);
                   //Permet de supprimer une proposition
                   return Dismissible(
-                      background: slideRight(),
+                      background: slideRightWidget(),
                       secondaryBackground: slideLeftWidget(),
                       key: Key(proposition.entreprise),
                       confirmDismiss: (direction) async {
