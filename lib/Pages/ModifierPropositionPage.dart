@@ -105,26 +105,32 @@ class _ModifierPropositionState extends State<ModifierPropositionPage> {
       ),
       body: Center(
         child: Column(
+          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Spacer(flex: 2),
-            TextField(
-              controller: myEntrepriseController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Entrez le nom d\' une entreprise',
-                  hintStyle: TextStyle(color: Colors.grey[400])),
+            Spacer(flex: 1),
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+              leading: const Icon(Icons.business),
+              title: TextField(
+                controller: myEntrepriseController,
+                decoration: InputDecoration(
+                    hintText: 'Entrez le nom d\' une entreprise',
+                    hintStyle: TextStyle(color: Colors.grey[400])),
+              ),
             ),
             Spacer(flex: 1),
-            TextField(
-              controller: mySalaireBrutAnuelController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Salaire brut annuel',
-                  hintStyle: TextStyle(color: Colors.grey[400])),
-              onChanged: (text) {
-                calculSalaire(text.toString());
-              },
+            ListTile(
+              leading: const Icon(Icons.euro),
+              title: TextField(
+                controller: mySalaireBrutAnuelController,
+                decoration: InputDecoration(
+                    hintText: 'Salaire brut annuel',
+                    hintStyle: TextStyle(color: Colors.grey[400])),
+                onChanged: (text) {
+                  calculSalaire(text.toString());
+                },
+              ),
             ),
             Spacer(flex: 1),
             ListTile(
@@ -139,7 +145,7 @@ class _ModifierPropositionState extends State<ModifierPropositionPage> {
                   //On effectue le calcul de salaire après pour que la fonctionne puisse détecter le changement de val, sinon lors du premier click sur un RB aucun affichage ne serait fait
                   calculSalaire(mySalaireBrutAnuelController.text);
                 },
-                activeColor: Colors.lightBlue,
+                activeColor: Colors.teal,
               ),
             ),
             ListTile(
@@ -158,27 +164,33 @@ class _ModifierPropositionState extends State<ModifierPropositionPage> {
               ),
             ),
             Spacer(flex: 1),
-            TextField(
-              controller: mySalaireNetMensuelController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Salaire net mensuel',
-                  hintStyle: TextStyle(color: Colors.grey[400])),
+            ListTile(
+              leading: const Icon(Icons.euro),
+              title: TextField(
+                controller: mySalaireNetMensuelController,
+                decoration: InputDecoration(
+                    hintText: 'Salaire net mensuel',
+                    hintStyle: TextStyle(color: Colors.grey[400])),
+              ),
+            ),
+
+            Spacer(flex: 1),
+            ListTile(
+              leading: const Icon(Icons.rate_review),
+              title: TextField(
+                controller: mySentimentController,
+                decoration: InputDecoration(
+                    hintText: 'Mon sentiment',
+                    hintStyle: TextStyle(color: Colors.grey[400])),
+              ),
             ),
             Spacer(flex: 1),
-            TextField(
-              controller: mySentimentController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Mon sentiment',
-                  hintStyle: TextStyle(color: Colors.grey[400])),
-            ),
-            Spacer(flex: 1),
-            FloatingActionButton(
+            FloatingActionButton.extended(
               onPressed: ajouterProposition,
-              backgroundColor: Colors.lightBlue,
+              backgroundColor: Colors.teal,
               tooltip: 'Modifier la proposition',
-              child: const Icon(Icons.edit),
+              label: const Text('Modifier les changements'),
+              icon: const Icon(Icons.edit),
               //backgroundColor: Colors.white,
             ),
             Spacer(flex: 2),

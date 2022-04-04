@@ -9,13 +9,23 @@ class PropositionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Proposition')
-      ),
-      body: Center(
-        child: Text(proposition.entreprise),
-      ),
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(
+              "Salaire brut annuel : " +
+                  proposition.salaireBrutAnuel.toString(),
+              style: TextStyle(fontSize: 40)),
+          Text(
+              "Salaire net mensuel : " +
+                  proposition.salaireNetMensuel.toString(),
+              style: TextStyle(fontSize: 40)),
+          Text("Statut propose : " + proposition.statutPropose,
+              style: TextStyle(fontSize: 40)),
+          Text("Mon sentiment : " + proposition.mesSentiments,
+              style: TextStyle(fontSize: 40)),
+          ]
+        
     );
   }
 }

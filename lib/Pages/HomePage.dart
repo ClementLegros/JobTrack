@@ -47,8 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
+                                  title: const Icon(Icons.delete),
                                   content: Text(
-                                      "Voulez vous supprimé l'offre de ${proposition.entreprise}"),
+                                      "Voulez vous supprimé l'offre de ${proposition.entreprise}"
+                                  ),
                                   actions: <Widget>[
                                     FlatButton(
                                         onPressed: () {
@@ -101,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         },
                                         child: Text(
                                           "Modifier",
-                                          style: TextStyle(color: Colors.blue),
+                                          style: TextStyle(color: Colors.orange),
                                         ))
                                   ],
                                 );
@@ -123,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: goToProposition,
         icon: const Icon(Icons.add),
         label: const Text('Ajouter une proposition'),
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.teal,
       ),
     );
   }

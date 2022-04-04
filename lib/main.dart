@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
       theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
+        primarySwatch: Colors.teal,
       ),
     );
   }
@@ -37,7 +37,7 @@ class RouteGenerator {
             builder: (context) => MyHomePage(title: 'Accueil'));
       case '/addProposition':
         return MaterialPageRoute(
-            builder: (context) => AddProposition(title: 'Ajout'));
+            builder: (context) => AddProposition(title: 'Ajouter une proposition'));
       case '/Proposition':
         return PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>

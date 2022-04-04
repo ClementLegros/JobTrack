@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:tp1exercice3/Models/proposition.dart';
 import 'package:tp1exercice3/Models/propositionDatabase.dart';
@@ -28,7 +30,7 @@ class _AddPropositionState extends State<AddProposition> {
     var salaireBrutAnnu = double.tryParse(salaireBrutAnnuel);
     if (salaireBrutAnnu == null) {
       //Si le champs est mal renseigner on remet à 0 le champs net
-      mySalaireNetMensuelController.text = "";
+      mySalaireNetMensuelController.text = "0";
 
       return;
     }
@@ -43,6 +45,27 @@ class _AddPropositionState extends State<AddProposition> {
       statut = "Cadre";
       salaireBrutAnnu = salaireBrutAnnu - (25 / 100 * salaireBrutAnnu);
       mySalaireNetMensuelController.text = salaireBrutAnnu.toString();
+    }
+  }
+
+  double roundDouble(double value, int places){
+    num mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
+
+  void calculSalaireFromNet(salaireNetAnnuel) {
+    var salaireNetAnnu = double.tryParse(salaireNetAnnuel);
+    if (salaireNetAnnu == null) {
+      mySalaireBrutAnuelController.text = "";
+      return;
+    }
+
+    if (val == 1) {
+      salaireNetAnnu = salaireNetAnnu + (22 / 100 * salaireNetAnnu);
+      mySalaireBrutAnuelController.text = salaireNetAnnu.toString();
+    } else if (val == 2) {
+      salaireNetAnnu = salaireNetAnnu + (25 / 100 * salaireNetAnnu);
+      mySalaireBrutAnuelController.text = salaireNetAnnu.toString();
     }
   }
 
@@ -86,25 +109,30 @@ class _AddPropositionState extends State<AddProposition> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Spacer(flex: 2),
-            TextField(
-              controller: myEntrepriseController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Entrez le nom d\' une entreprise',
-                  hintStyle: TextStyle(color: Colors.grey[400])),
+            Spacer(flex: 1),
+            ListTile(
+              leading: const Icon(Icons.business),
+              title: TextField(
+                controller: myEntrepriseController,
+                decoration: InputDecoration(
+                    hintText: 'Entrez le nom d\' une entreprise',
+                    hintStyle: TextStyle(color: Colors.grey[400])),
+              ),
             ),
             Spacer(flex: 1),
-            TextField(
-              controller: mySalaireBrutAnuelController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Salaire brut annuel',
-                  hintStyle: TextStyle(color: Colors.grey[400])),
-              onChanged: (text) {
-                calculSalaire(text.toString());
-              },
+            ListTile(
+              leading: const Icon(Icons.euro),
+              title: TextField(
+                controller: mySalaireBrutAnuelController,
+                decoration: InputDecoration(
+                    hintText: 'Salaire brut annuel',
+                    hintStyle: TextStyle(color: Colors.grey[400])),
+                onChanged: (text) {
+                  calculSalaire(text.toString());
+                },
+              ),
             ),
             Spacer(flex: 1),
             ListTile(
@@ -119,7 +147,7 @@ class _AddPropositionState extends State<AddProposition> {
                   //On effectue le calcul de salaire après pour que la fonctionne puisse détecter le changement de val, sinon lors du premier click sur un RB aucun affichage ne serait fait
                   calculSalaire(mySalaireBrutAnuelController.text);
                 },
-                activeColor: Colors.lightBlue,
+                activeColor: Colors.teal,
               ),
             ),
             ListTile(
@@ -134,31 +162,39 @@ class _AddPropositionState extends State<AddProposition> {
                   //On effectue le calcul de salaire après pour que la fonctionne puisse détecter le changement de val, sinon lors du premier click sur un RB aucun affichage ne serait fait
                   calculSalaire(mySalaireBrutAnuelController.text);
                 },
-                activeColor: Colors.lightBlue,
+                activeColor: Colors.teal,
               ),
             ),
             Spacer(flex: 1),
-            TextField(
-              controller: mySalaireNetMensuelController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Salaire net mensuel',
-                  hintStyle: TextStyle(color: Colors.grey[400])),
+            ListTile(
+              leading: const Icon(Icons.euro),
+              title: TextField(
+                controller: mySalaireNetMensuelController,
+                decoration: InputDecoration(
+                    hintText: 'Salaire net mensuel',
+                    hintStyle: TextStyle(color: Colors.grey[400])),
+                onChanged: (text) {
+                  calculSalaireFromNet(text.toString());
+                },
+              ),
             ),
             Spacer(flex: 1),
-            TextField(
-              controller: mySentimentController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Mon sentiment',
-                  hintStyle: TextStyle(color: Colors.grey[400])),
+            ListTile(
+              leading: const Icon(Icons.rate_review),
+              title: TextField(
+                controller: mySentimentController,
+                decoration: InputDecoration(
+                    hintText: 'Mon sentiment',
+                    hintStyle: TextStyle(color: Colors.grey[400])),
+              ),
             ),
             Spacer(flex: 1),
-            FloatingActionButton(
+            FloatingActionButton.extended(
               onPressed: ajouterProposition,
-              backgroundColor: Colors.lightBlue,
-              tooltip: 'Ajouter une proposition',
-              child: const Icon(Icons.add),
+              backgroundColor: Colors.teal,
+              tooltip: 'Modifier la proposition',
+              label: const Text('Modifier les changements'),
+              icon: const Icon(Icons.edit),
               //backgroundColor: Colors.white,
             ),
             Spacer(flex: 2),
