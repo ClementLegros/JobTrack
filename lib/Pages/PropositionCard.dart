@@ -11,9 +11,6 @@ class PropositionItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.pushNamed(context, '/Proposition', arguments: proposition);
-      },
       child: Card(
         margin: EdgeInsets.all(8),
         elevation: 8,
